@@ -1,11 +1,10 @@
 import asyncio
-import Sources
 from typing import Callable, Coroutine
 
 list_coro = []
 
 
-def async_request_scrape(url: str, source_getter, saver) -> Callable:
+def async_request_scrape(url: str, source_getter: Callable, saver: Callable) -> Callable:
     def create_coroutine(parser):
         coro = build_coroutine(source_getter(url), parser, saver)
         list_coro.append(coro)
@@ -14,9 +13,9 @@ def async_request_scrape(url: str, source_getter, saver) -> Callable:
     return create_coroutine
 
 
-def build_coroutine( source_getter, parser, saver) -> Coroutine:
+def build_coroutine( source_getter_url, parser: Callable, saver: Callable) -> Coroutine:
     async def coro():
-        source = await source_getter.get_source()
+        source = await source_getter_url.get_source()
         result = parser(source)
         await saver(result).save()
 

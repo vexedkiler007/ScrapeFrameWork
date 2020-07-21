@@ -7,3 +7,10 @@
   save
 
 all source objects must take in a string
+
+add database save
+add arsenic source
+add image save
+
+add checkIfFileExists method
+add @batch_request_async
