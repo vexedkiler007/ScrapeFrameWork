@@ -14,3 +14,11 @@ add image save
 
 add checkIfFileExists method
 add @batch_request_async
+add proxies to source methods
+
+
+self =  Object_data
+def save(self):
+    1. open connection
+    2. create table
+    3. run create data

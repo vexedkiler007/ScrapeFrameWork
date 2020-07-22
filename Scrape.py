@@ -13,7 +13,7 @@ def async_request_scrape(url: str, source_getter: Callable, saver: Callable) -> 
     return create_coroutine
 
 
-def build_coroutine( source_getter_url, parser: Callable, saver: Callable) -> Coroutine:
+def build_coroutine(source_getter_url, parser: Callable, saver: Callable) -> Coroutine:
     async def coro():
         source = await source_getter_url.get_source()
         result = parser(source)
