@@ -2,8 +2,6 @@ import typing
 import asyncio
 from aiofile import AIOFile
 import aiohttp
-import sqlalchemy
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Table, MetaData, create_engine
 import gino
 from gino.schema import GinoSchemaVisitor
@@ -83,7 +81,7 @@ class TextDataBaseGinoSaver(BaseSaver, Saver):
     async def save(self):
         engine = await gino.create_engine(self.data.engine_address)
         await GinoSchemaVisitor(self.data.metadata).create_all(engine)
-        cols_names =
+        cols_names = [col.name for col in self.data.built_table.__dict__['columns']]
         many_rows_format = [{key: val for key, val in zip(cols_names, row)} for row in self.data.rows]
         conn = await engine.aquire()
         await conn.execute(self.data.table.insert(), many_rows_format)

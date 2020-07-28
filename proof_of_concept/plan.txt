@@ -5,13 +5,14 @@
   save
 _________________________________________________________________________
 
-add databaseGino save done gave not tested
+add databaseGino ~Done have not tested
 add arsenic source
-add video saver
-add checkIfFileExists method
+add video saver ~Done
+add checkIfFileExists method in VideoImageSaver
 add @batch_request_async takes in list rather than single url
 add proxies to source methods
 add arcenic and selenium scroll
 add testing
 
 
+how to add paramaters if they don't exist or better design

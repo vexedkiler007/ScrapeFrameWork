@@ -1,5 +1,12 @@
+import random
 import typing
 import aiohttp
+
+
+class Proxy:
+    @staticmethod
+    def random(proxies):
+        return random.choice(proxies)
 
 
 class Source(typing.Protocol):
@@ -16,10 +23,9 @@ class BaseSource:
 
 
 class AioHttpSource(Source, BaseSource):
-
     data_type = str
 
-    def __init__(self, data) -> None:
+    def __init__(self, data: str, proxies: Proxy = None) -> None:
         super().__init__(data)
         self.data = data
 
@@ -31,7 +37,7 @@ class AioHttpSource(Source, BaseSource):
 
 class ArcenicSource(Source, BaseSource):
     class ArcenicSourceData:
-        def __init__(self, url: str) -> None:
+        def __init__(self, url: str, proxies: Proxy = None) -> None:
             self.url = url
 
     data_type = ArcenicSourceData
@@ -50,7 +56,7 @@ class ArcenicScrollSource(Source, BaseSource):
 
     data_type = ArcenicScrollSourceData
 
-    def __init__(self, data) -> None:
+    def __init__(self, data, proxies: Proxy = None) -> None:
         super().__init__(data)
 
     async def get_source(self) -> str:
@@ -64,7 +70,7 @@ class SeleniumSource(Source, BaseSource):
 
     data_type = SeleniumSourceData
 
-    def __init__(self, data) -> None:
+    def __init__(self, data, proxies: Proxy = None) -> None:
         super().__init__(data)
 
     async def get_source(self) -> str:
@@ -73,13 +79,17 @@ class SeleniumSource(Source, BaseSource):
 
 class SeleniumScrollSource(Source, BaseSource):
     class SeleniumScrollSourceData:
-        def __init__(self, url: str) -> None:
+        def __init__(self, url: str, proxies: Proxy = None) -> None:
             self.url = url
 
     data_type = SeleniumScrollSourceData
 
-    def __init__(self, data) -> None:
+    def __init__(self, data, proxies: Proxy = None) -> None:
         super().__init__(data)
 
     async def get_source(self) -> str:
         pass
+
+
+
+
