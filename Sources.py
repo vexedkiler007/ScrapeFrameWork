@@ -41,3 +41,45 @@ class ArcenicSource(Source, BaseSource):
 
     async def get_source(self) -> str:
         pass
+
+
+class ArcenicScrollSource(Source, BaseSource):
+    class ArcenicScrollSourceData:
+        def __init__(self, url: str) -> None:
+            self.url = url
+
+    data_type = ArcenicScrollSourceData
+
+    def __init__(self, data) -> None:
+        super().__init__(data)
+
+    async def get_source(self) -> str:
+        pass
+
+
+class SeleniumSource(Source, BaseSource):
+    class SeleniumSourceData:
+        def __init__(self, url: str) -> None:
+            self.url = url
+
+    data_type = SeleniumSourceData
+
+    def __init__(self, data) -> None:
+        super().__init__(data)
+
+    async def get_source(self) -> str:
+        pass
+
+
+class SeleniumScrollSource(Source, BaseSource):
+    class SeleniumScrollSourceData:
+        def __init__(self, url: str) -> None:
+            self.url = url
+
+    data_type = SeleniumScrollSourceData
+
+    def __init__(self, data) -> None:
+        super().__init__(data)
+
+    async def get_source(self) -> str:
+        pass

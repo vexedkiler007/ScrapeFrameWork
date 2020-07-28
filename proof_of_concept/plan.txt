@@ -1,24 +1,15 @@
-
-
   source
 = bridge =
   parse
 = bridge =
   save
+_________________________________________________________________________
 
-all source objects must take in a string
-
-add database save
+add databaseGino save
 add arsenic source
-add image save
-
+add video saver
 add checkIfFileExists method
-add @batch_request_async
+add @batch_request_async takes in list rather than single url
 add proxies to source methods
+add arcenic and selenium scroll
 
-
-self =  Object_data
-def save(self):
-    1. open connection
-    2. create table
-    3. run create data

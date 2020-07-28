@@ -1,8 +1,10 @@
+from sqlalchemy import MetaData, create_engine, Column, Integer, String
 import Sources
 import Save
 import Scrape
 from bs4 import BeautifulSoup
 import os
+
 
 
 # @Scrape.async_request_scrape("http://127.0.0.1:5000/static/test.html", Sources.AioHttpSource, Save.TextSaver)
@@ -39,31 +41,44 @@ import os
 #     return Save.ImageSaver.ImageSaverData(link_list, file_list)
 
 
-@Scrape.async_request_scrape("http://127.0.0.1:5000/static/test.html", Sources.AioHttpSource, Save.TextDataBaseSaver)
-def saveDataBase(source: str) -> Save.TextDataBaseSaver.TextDataBaseSaverData:
-    soup = BeautifulSoup(source, 'html.parser')
-    names = ('Titles', 'Likes', 'SubReddit')
-    types_ = ('String', 'String', 'String')
-    container = soup.find(class_="rpBJOHq2PR60pnwJlUyP0")
+# @Scrape.async_request_scrape("http://127.0.0.1:5000/static/test.html", Sources.AioHttpSource, Save.TextDataBaseSaver)
+# def saveDataBase(source: str) -> Save.TextDataBaseSaver.TextDataBaseSaverData:
+#     soup = BeautifulSoup(source, 'html.parser')
+#     names = ('Titles', 'Likes', 'SubReddit')
+#     types_ = ('String', 'String', 'String')
+#     container = soup.find(class_="rpBJOHq2PR60pnwJlUyP0")
+#
+#     rows = []
+#     for num, child in enumerate(container.find_all(class_ = 'scrollerItem')):
+#         try:
+#             title = child.find(class_ = '_2SdHzo12ISmrC8H86TgSCp').text
+#             like = child.find(class_ = '_1E9mcoVn4MYnuBQSVDt1gC').text
+#             subreddit = child.find(class_ = "_2mHuuvyV9doV3zwbZPtIPG").text
+#             print(title)
+#             print(like)
+#             print(subreddit)
+#             rows.append((title, like, subreddit))
+#
+#         except AttributeError as e:
+#             print(f'__{e}__')
+#     print(rows)
+#     rows = tuple(rows)
+#     print(rows)
+#     return Save.TextDataBaseSaver.TextDataBaseSaverData(names, types_, rows)
 
-    rows = []
-    for num, child in enumerate(container.find_all(class_ = 'scrollerItem')):
-        try:
-            title = child.find(class_ = '_2SdHzo12ISmrC8H86TgSCp').text
-            like = child.find(class_ = '_1E9mcoVn4MYnuBQSVDt1gC').text
-            subreddit = child.find(class_ = "_2mHuuvyV9doV3zwbZPtIPG").text
-            print(title)
-            print(like)
-            print(subreddit)
-            rows.append((title, like, subreddit))
+@Scrape.async_request_scrape("http://127.0.0.1:5000/static/test.html", Sources.AioHttpSource, Save.TextDataBaseSQLalchemySaver)
+def saveDataBase(source: str) -> Save.TextDataBaseSQLalchemySaver.TextDataBaseSQLalchemySaverData:
+    meta = MetaData()
+    engine = create_engine('sqlite:///school_exp.db')
+    id_col = Column('id', Integer)
+    name_col = Column('name', String)
+    school_name_col = Column('school_name', String)
+    major_col = Column('major', String)
+    cols_ = [id_col, name_col, school_name_col, major_col]
+    rows = [(1, 'steve', 'SJSU', 'chemistry'), (2, "Susu", "MIT", "biology"),
+            (3, "Belle", "UCLA", "Simpology")]
 
-        except AttributeError as e:
-            print(f'__{e}__')
-    print(rows)
-    rows = tuple(rows)
-    print(rows)
-    return Save.TextDataBaseSaver.TextDataBaseSaverData(names, types_, rows)
-
-
+    data = Save.TextDataBaseSQLalchemySaver.TextDataBaseSQLalchemySaverData(engine, meta, cols_, rows, 'test')
+    return data
 
 Scrape.run()
